@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Qrcode</title>
+    <script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js" ></script>	
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <link rel="stylesheet" href="sweetalert2.min.css">
+    <script src="sweetalert2.min.js"></script>  
+</head>
+  <body>
+      <center><H1>QR CODE</H1></center>
+   <center> <video id="preview"></video>
+    <script>
+        let scanner = new Instascan.Scanner(
+            {
+                video: document.getElementById('preview')
+            }
+        );
+        
+        scanner.addListener('scan', function(content) {
+           Swal.fire({
+  icon: 'success',
+  title: 'Escaneou o conteudo: ' + content + 
+  ' você será direcionado em 3 segundos!',
+  showConfirmButton: false,
+  timer: 3000
+})
+           
+            setTimeout(function() {
+    window.location.href = content;
+}, 3000);
+            
+        });
+        Instascan.Camera.getCameras().then(cameras => 
+        {
+            if(cameras.length > 0){
+                scanner.start(cameras[0]);
+            } else {
+                console.error("Não existe câmera no dispositivo!");
+            }
+        });
+    </script>
+</center>
+ </body>
+</html>
